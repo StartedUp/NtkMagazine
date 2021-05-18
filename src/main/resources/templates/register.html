@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<head>
+    <div th:replace="fragments/header :: headMeta"></div>
+    <div th:replace="fragments/header :: head"></div>
+</head>
+<body id="page-top" class="index">
+<div th:replace="fragments/header :: navigation"></div>
+<section id="registration" th:name="register">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-12 text-center">
+                <h2>சந்தாதாரர் பதிவு</h2>
+                <hr class="star-primary">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2">
+                <form th:object="${user}" action="/register" method="post" class="register-form">
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <label for="name">பெயர்</label>
+                            <input name="firstName" class="form-control" type="text" placeholder="First Name" required data-validation-required-message="பெயரை இங்கு குறிப்பிடவும்."/>
+                        </div>
+                    </div>
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <label for="email">மின் அஞ்சல்</label>
+                            <p hidden th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></p>
+                            <input name="email" class="form-control" type="email" placeholder="மின் அஞ்சல்" required data-validation-required-message="மின்னஞ்சலை இங்கு குறிப்பிடவும்."/>
+                        </div>
+                    </div>
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <label for="mobile">தொடர்பு எண்</label>
+                            <input name="mobile" class="form-control" type="text" placeholder="தொடர்பு எண்" required data-validation-required-message="தொடர்பு எண்னை இங்கு குறிப்பிடவும்."/>
+                        </div>
+                    </div>
+                    <div class="row control-group">
+                        <div class="form-group col-xs-12 floating-label-form-group controls">
+                            <label for="password">கடவுச்சொல்</label>
+                            <input name="password" class="form-control" type="கடவுச்சொல்" placeholder="கடவுச்சொல்" required data-validation-required-message="கடவுச்சொல்லை இங்கு குறிப்பிடவும் ."/>
+                        </div>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <div class="form-group col-xs-12">
+                            <input value="register" type="submit" class="btn btn-success btn-lg"/>
+                        </div>
+                    </div>
+                    <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
+</body>
+</html>
