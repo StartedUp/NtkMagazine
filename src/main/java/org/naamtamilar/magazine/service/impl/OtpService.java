@@ -49,4 +49,15 @@ public class OtpService {
     public void clearOTP(String key) {
         otpCache.invalidate(key);
     }
+
+    public boolean validateOtp(int otpnum, String email) {
+        if (otpnum >= 0) {
+            int serverOtp = getOtp(email);
+            if (serverOtp > 0 && otpnum == serverOtp) {
+                clearOTP(email);
+                return true;
+            }
+        }
+        return false;
+    }
 }

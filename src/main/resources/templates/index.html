@@ -1,33 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
     <head>
         <th:block th:replace="fragments/header :: headMeta"></th:block>
         <th:block th:replace="fragments/header :: head"></th:block>
     </head>
     <body>
-        <!-- Navigation-->
-        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-            <div class="container">
-                <a class="navbar-brand" href="#!">நாம் தமிழர் இதழ்கள்</a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-                <div class="collapse navbar-collapse" id="navbarResponsive">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item active">
-                            <a class="nav-link" href="#!">
-                                Home
-                                <span class="sr-only">(current)</span>
-                            </a>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                        <li class="nav-item"><a class="nav-link" href="/register">பதிவு</a></li>
-                        <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
-                    </ul>
-                </div>
-            </div>
-        </nav>
-        <!-- Page Content-->
+    <div th:replace="fragments/header :: navigation"></div>
+    <!-- Page Content-->
         <div class="container">
-            <div class="row">
+            <div class="row-template">
                 <div class="col-lg-3">
                     <h1 class="my-4">Shop Name</h1>
                     <div class="list-group">
@@ -57,7 +38,7 @@
                             <span class="sr-only">Next</span>
                         </a>
                     </div>
-                    <div class="row">
+                    <div class="row-template">
                         <div class="col-lg-4 col-md-6 mb-4">
                             <div class="card h-100">
                                 <a href="#!"><img class="card-img-top" src="https://via.placeholder.com/700x400" alt="..." /></a>
@@ -132,5 +113,7 @@
         <footer class="py-5 bg-dark">
             <div class="container"><p class="m-0 text-center text-white">Copyright &copy; Your Website 2021</p></div>
         </footer>
+    <input type="hidden" id="isRegistered" th:if="${isRegistered}" th:value="${isRegistered}">
+    <input type="hidden" id="isAccountVerified" th:if="${isAccountVerified}" th:value="${isAccountVerified}">
     </body>
 </html>

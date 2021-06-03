@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity4">
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
 <th:block th:fragment="headMeta">
     <meta charset="utf-8"/>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
@@ -17,11 +17,19 @@
     <script src="https://code.jquery.com/jquery-3.6.0.min.js" integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
     <script src = "https://code.jquery.com/ui/1.10.4/jquery-ui.js"></script>
     <link href = "https://code.jquery.com/ui/1.10.4/themes/ui-lightness/jquery-ui.css" rel = "stylesheet">
-    <!-- Core theme CSS (includes Bootstrap)-->
-    <link th:href="@{/css/styles.css}" rel="stylesheet" />
+     <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+    <!-- Optional theme -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+
     <!-- Contact Form JavaScript -->
-    <script th:src="@{/js/jqBootstrapValidation.js}"></script>
-    <script th:src="@{/js/contact_me.js}"></script>
+    <script th:src="@{/js/lib/jqBootstrapValidation.js}"></script>
+    <script th:src="@{/js/lib/contact_me.js}"></script>
+    <script th:src="@{/js/apis_url.js}"></script>
+    <script th:src="@{/js/appScript.js}"></script>
+    <script th:src="@{/js/registration.js}"></script>
 
     <!-- Custom Fonts -->
     <link th:href="@{/vendor/font-awesome/css/font-awesome.min.css}" rel="stylesheet" type="text/css"/>
@@ -35,23 +43,31 @@
 </th:block>
 <th:block th:fragment="navigation">
     <!-- Navigation-->
-    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <div class="container">
-            <a class="navbar-brand" href="#!">நாம் தமிழர் இதழ்கள்</a>
-            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation"><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navbarResponsive">
-                <ul class="navbar-nav ml-auto">
-                    <li class="nav-item active">
-                        <a class="nav-link" href="#!">
-                            Home
-                            <span class="sr-only">(current)</span>
-                        </a>
-                    </li>
-                    <li class="nav-item"><a class="nav-link" href="#!">About</a></li>
-                    <li class="nav-item"><a class="nav-link" href="/register">பதிவு</a></li>
-                    <li class="nav-item"><a class="nav-link" href="#!">Contact</a></li>
-                </ul>
+    <nav class="navbar navbar-inverse">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <a class="navbar-brand" href="/">நாம் தமிழர் இதழ்கள்</a>
             </div>
+            <ul class="nav navbar-nav">
+                <li class="active"><a href="/">Home</a></li>
+                <li class="dropdown" sec:authorize="isAuthenticated()">
+                    <a class="dropdown-toggle" th:text="${#authentication.getPrincipal().getName()}"
+                       data-toggle="dropdown" href="/u/profile">
+                        <span class="caret"></span></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="/u/profile">சுயவிவரம்</a></li>
+                        <li><a href="/Change Password">Page 1-2</a></li>
+                        <li><a href="/logout">logout</a></li>
+                    </ul>
+                </li>
+                <li sec:authorize="hasRole('ROLE_ADMIN')"><a href="/a/home">Admin Section</a></li>
+                <li><a href="#">Page 2</a></li>
+            </ul>
+            <ul class="nav navbar-nav navbar-right">
+                <li sec:authorize="isAnonymous()"><a href="/register"><span class="glyphicon glyphicon-user"></span> பதிவு</a></li>
+                <li sec:authorize="isAnonymous()"><a href="/login"><span class="glyphicon glyphicon-log-in"></span> உள்நுழை</a></li>
+                <li sec:authorize="isAuthenticated()"><a href="/login"><span class="glyphicon glyphicon-log-out"></span> வெளியேறு</a></li>
+            </ul>
         </div>
     </nav>
 </th:block>

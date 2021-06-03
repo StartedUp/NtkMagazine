@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -36,28 +37,33 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/a/**").access("hasRole('ROLE_admin')")
+				.antMatchers("/a/**").access("hasRole('ROLE_ADMIN')")
 				.antMatchers("/u/**").authenticated()
 				.anyRequest().permitAll()
 				.and()
 				.formLogin()
 				.loginPage("/login")
 				.defaultSuccessUrl("/u/home")
-				.failureUrl("/login?error=true")
+				.failureUrl("/login-error")
 				.usernameParameter("email")
 				.permitAll()
 				.and()
 				.logout()
 				.logoutSuccessUrl("/login?logout=true")
 				.and()
-				.csrf();
+				.csrf().ignoringAntMatchers("/h2-console/**");
 		http.sessionManagement()
-				//on authentication a new HTTP Session is created, the old one is invalidated and
-				// the attributes from the old session are copied over.
 				.sessionFixation().newSession()
 				.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
 				.invalidSessionUrl("/")
 				.maximumSessions(3);
 
+	}
+
+	@Override
+	public void configure(WebSecurity web) throws Exception {
+		web
+				.ignoring()
+				.antMatchers("/h2/**", "/h2-console/**");
 	}
 }

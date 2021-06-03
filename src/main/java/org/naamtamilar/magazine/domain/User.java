@@ -1,11 +1,13 @@
 package org.naamtamilar.magazine.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import lombok.Data;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 import java.util.Date;
+import java.util.Set;
 
 @Entity
 @Data
@@ -22,13 +24,17 @@ public class User extends Auditable<String>{
 	@NotNull
 	private String password;
 	private boolean active;
-	private boolean adminApproved =true;
+	@Column(columnDefinition="int default 0")
+	private boolean isAccountVerified;
 	@Column(columnDefinition="int default 0")
 	private int gender;@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date dob;
-	@ManyToOne
+	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "role_id")
 	private Role role;
+	/*@JsonIgnore
+	@OneToMany(targetEntity = Address.class,mappedBy = "subscriber",cascade= CascadeType.ALL, fetch = FetchType.EAGER)
+	private Set<Address> addresses;*/
 
 	public User(User user) {
 		this.id=user.getId();

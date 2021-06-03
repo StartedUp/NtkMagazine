@@ -1,9 +1,10 @@
 /**
  * Created by root on 18/7/18.
  */
+
+ var token = $("meta[name='_csrf']").attr("content");
+ var header = $("meta[name='_csrf_header']").attr("content");
 $(document).ready(function () {
-    var token = $("meta[name='_csrf']").attr("content");
-    var header = $("meta[name='_csrf_header']").attr("content");
 
     $( ".datepicker" ).datepicker({changeYear: true, yearRange: "-80:+0", dateFormat: 'dd/mm/yy' });
 
@@ -40,26 +41,6 @@ $(document).ready(function () {
         $('#total-event-reg-fee').text('Total : ₹ '+totalFee.toFixed(2))
     })
 
-    $('#approveMember').on('change', function () {
-        $.ajax({
-            type: 'POST',
-            url: "/a/member-details-approval",
-            data: {"id" :this.value},
-            beforeSend: function(xhr) {
-                xhr.setRequestHeader(header, token);
-            }
-        }).done( function(resultData) {
-            var title='Alert Message'
-            if (resultData) {
-                var message='Updated member details successfully'
-                messageAlertModal(title, message)
-            }else {
-                var message='Failed to Update'
-                messageAlertModal(title, message)
-                location.reload()
-            }
-        });
-    })
 })
 function messageAlertModal(title, message) {
     $('#messageTitle').text(title)
@@ -69,26 +50,76 @@ function messageAlertModal(title, message) {
 
 function validateFormFields() {
     var valid=true;
-    $('#eventRegistration-form input[required]').each(function () {
+    $('#registration-form input[required]').css("border-color", "#ccc")
+    if(!requiredValidation()) return false;
+    if(!validEmail()) return false;
+    if(!verifyUserEmail()) return false;
+    if(!validMobile()) return false;
+    if(!passwordMatch()) return false;
+    return valid;
+}
+function passwordMatch() {
+    if(!($('#password').val() === $('#pwdConfirm').val())) {
+        messageAlertModal('பிழை தகவல்', 'Please enter matching passwords');
+        $('#password,#pwdConfirm').css("border-color", "red");
+        return false;
+    }
+    return true;
+}
+function validMobile() {
+    var mobile=$('#mobile').val();
+    if (!/^\d{10}$/.test(mobile)) {
+        messageAlertModal('பிழை தகவல்', 'Please enter only 10 digits of your mobile number');
+        $('#mobile').css("border-color", "red");
+        return false;
+    }
+    return true;
+}
+function validEmail () {
+    var pattern = /^\b[A-Z0-9._%-]+@[A-Z0-9.-]+\.[A-Z]{2,4}\b$/i
+    if(!pattern.test($('#email').val())){
+        messageAlertModal('பிழை தகவல்', 'Please enter valid email');
+        $(this).css("border-color", "red");
+        return false;
+    }
+    return true;
+}
+function requiredValidation() {
+    var valid = true;
+    $('#registration-form input[required]').each(function () {
         if(!$(this).val()) {
-            messageAlertModal('Alert Message', 'Please enter the required fields')
             $(this).css("border-color", "red");
             valid = false;
-            return false;
         }
-    })
-    if(valid && $('.eventRegistration-playing-category:checked').length<1){
-        messageAlertModal('Alert Message', 'Please choose any one playing category')
-        $(this).css("border-color", "red");
-        valid=false
-        return false
+    });
+    if(!valid) {
+        messageAlertModal('பிழை தகவல்', 'Please enter the required fields')
     }
-    var playerMobile=$('#playerMobile').val();
-    if (valid && !/^\d{10}$/.test(playerMobile)) {
-        messageAlertModal('Alert Message', 'Please enter only 10 digits of your mobile number')
-        $('#playerMobile').css("border-color", "red")
-        valid=false
-        return false
-    }
+    return valid;
+}
+function verifyUserEmail() {
+    var email = $('#email').val();
+    var valid = true;
+    if(!validEmail()) return false;
+    $.ajax({
+        type: 'POST',
+        url: GET_USER_BY_EMAIL,
+        data: {"email" :email},
+        beforeSend: function(xhr) {
+            xhr.setRequestHeader(header, token);
+        }
+    }).done(function(resultData) {
+        var title='பிழை தகவல்'
+        if (resultData) {
+            var message='இந்த மின்னஞ்சல் முன்பே பதிவு செய்யப்பட்டுள்ளது'
+            messageAlertModal(title, message);
+            valid = false;
+        }
+    }).fail(function(){
+        var title='பிழை தகவல்';
+        var message='Something went wrong';
+        messageAlertModal(title, message);
+        valid = false;
+    });
     return valid;
 }

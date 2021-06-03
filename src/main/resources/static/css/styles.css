@@ -571,7 +571,7 @@ pre code {
     max-width: 1140px;
   }
 }
-.row {
+.row-template {
   display: flex;
   flex-wrap: wrap;
   margin-right: -15px;

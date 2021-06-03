@@ -3,6 +3,7 @@ package org.naamtamilar.magazine.controller;
 import org.naamtamilar.magazine.domain.Mailer;
 import org.naamtamilar.magazine.domain.User;
 import org.naamtamilar.magazine.service.impl.MailService;
+import org.naamtamilar.magazine.service.impl.OtpService;
 import org.naamtamilar.magazine.service.impl.UserServiceImpl;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -12,11 +13,11 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 import java.util.HashMap;
 import java.util.Map;
@@ -31,34 +32,43 @@ public class RegisterController {
     private MailService mailService;
     @Autowired
     private UserServiceImpl userService;
+    @Autowired
+    public OtpService otpService;
 
     private static final Logger LOGGER = LoggerFactory.getLogger(RegisterController.class.getName());
 
     @GetMapping("/register")
     public String showRegisterForm(Model model){
-        LOGGER.info("உறுப்பினர் பதிவு பக்கம்  ");
+        LOGGER.info("உறுப்பினர் பதிவு பக்கம்");
         model.addAttribute("user", new User()).addAttribute("title", "பதிவு - ");
         return "register";
     }
 
     @RequestMapping(value = "/register", method = RequestMethod.POST)
-    public String register(@ModelAttribute("user") @Valid User user, BindingResult bindingResult, Model model){
-        LOGGER.info("Registering user");
+    public String register(@ModelAttribute("user") @Valid User user, @RequestParam("otpPassword") Integer otpPassword,
+                           BindingResult bindingResult, HttpServletRequest request, RedirectAttributes redirectAttributes){
+        LOGGER.info("Registering user    ");
         User userExists = userService.findByEmail(user.getEmail());
         if (userExists != null) {
             bindingResult.rejectValue("email", "error.user", "Email already exist");
+            return "register";
         }
         if (bindingResult.hasErrors()){
             LOGGER.info(bindingResult+"");
             return "register";
         }
         userService.populateDefaultValues(user);
-        user.setPassword(passwordEncoder.encode(user.getPassword()));
+        user.setAccountVerified(otpService.validateOtp(otpPassword, user.getEmail()));
+        String password = user.getPassword();
+        user.setPassword(passwordEncoder.encode(password));
         LOGGER.info(user.toString());
-        userService.saveOrUpdate(user);
-        sendMail(user);
-        model.addAttribute("registerSuccess",true);
-        return "redirect:/login";
+        user=userService.saveOrUpdate(user);
+        if (user.getId()>0) {
+            authWithHttpServletRequest(request,user.getEmail(),password);
+            sendMail(user);
+            redirectAttributes.addAttribute("isRegistered",true).addAttribute("isAccountVerified", user.isAccountVerified());
+        }
+        return "redirect:/u/home";
     }
 
     private void sendMail(User user) {
@@ -69,6 +79,14 @@ public class RegisterController {
         Map<String,String> mailTemplateData=new HashMap<>();
         mailTemplateData.put("userName", user.getName());
         mailTemplateData.put("templateName","mailTemplates/welcomeMail");
-        mailService.prepareAndSend(mailer,mailTemplateData);
+        //mailService.prepareAndSend(mailer,mailTemplateData);
+    }
+
+    public void authWithHttpServletRequest(HttpServletRequest request, String username, String password) {
+        try {
+            request.login(username, password);
+        } catch (ServletException e) {
+            LOGGER.error("Error while login ", e);
+        }
     }
 }

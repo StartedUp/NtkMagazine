@@ -7,6 +7,7 @@ import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.naamtamilar.magazine.domain.Role;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Service;
 
 import org.naamtamilar.magazine.domain.User;
@@ -52,9 +53,9 @@ public class UserServiceImpl implements IService<User> {
 
 	public void populateDefaultValues(User user) {
 		user.setActive(true);
-		user.setAdminApproved(true);
 		var role = new Role();
 		role.setName("USER");
 		user.setRole(role);
+		AuditorAware<String> aware = () -> Optional.ofNullable(user.getName());
 	}
 }
