@@ -10,14 +10,14 @@
   <div class="container" id="maincontent" tabindex="2">
     <div class="panel panel-default">
       <div class="col-lg-12">
-        <h3 style="text-align: center;color: #398439">Login</h3>
+        <h3 style="text-align: center;color: #398439">உள்நுழைய</h3>
         <form role="form" th:action="@{/login}" method="POST">
           <div class="row">
             <div class="col-sm-4"></div>
             <div class="col-sm-4" text-center>
-              <label for="email">Email:</label>
+              <label for="email">மின்னஞ்சல்:</label>
               <input required name="email" type="email" class="form-control" id="email"
-                     data-error="மின்னஞ்சலை இங்கு குறிப்பிடவும்." placeholder="Enter email">
+                     data-error="மின்னஞ்சலை இங்கு குறிப்பிடவும்." placeholder="மின்னஞ்சலை உள்ளிடவும்">
               <br>
             </div>
             <div class="col-sm-4"></div>
@@ -25,9 +25,9 @@
           <div class="row">
             <div class="col-sm-4"></div>
             <div class="col-sm-4" text-center>
-              <label for="pwd">Password:</label>
+              <label for="pwd">கடவுச்சொல்:</label>
               <input required name="password" type="password" class="form-control" id="pwd"
-                     data-error="Please fill this field" placeholder="Enter password">
+                     data-error="Please fill this field" placeholder="கடவுச்சொல்லை உள்ளிடவும்">
               <br>
             </div>
             <div class="col-sm-4"></div>
@@ -39,7 +39,7 @@
             <div class="col-sm-4"></div>
             <div class="col-sm-4"><br>
               <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}"/>
-              <button type="submit" class="btn btn-success btn-lg">Submit</button>
+              <button type="submit" class="btn btn-success btn-lg">சமர்ப்பிக்கவும்</button>
               <div class="col-sm-4"></div>
             </div>
           </div>
