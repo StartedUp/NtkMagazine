@@ -52,5 +52,7 @@
 <p class="alert-danger" th:if="${param.error}">Invalid username or password.Please try again with correct Credentials</p>
 <p class="alert-danger" th:if="${param.userNotFound}">Username Not Found.Please try again with correct Credentials</p>
 <div class="alert alert-info text-center"  th:if="${param.logout}">Logged out succesfully</div>
+<!-- Footer-->
+<th:block th:replace="fragments/header :: footer"></th:block>
 </body>
 </html>
