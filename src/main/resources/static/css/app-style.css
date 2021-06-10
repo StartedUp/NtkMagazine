@@ -3,12 +3,12 @@
    left: 0;
    bottom: 0;
    width: 100%;
-   background-color: #3f7e37;
+   background-color: #ed1c24;
    color: white;
    text-align: center;
 }
 .copyright {
-    color: #fff;
+    color: #ffe700;
     margin-top: 8px;
 }
 .copyright a {
@@ -20,10 +20,18 @@
     display: inline-block;
 }
 .footer .nav-link{
-    color: #fff;
+    color: #ffe700;
     padding-right: .5rem;
     padding-left: .5rem;
 }
 .footer ul {
     margin-top: 20px
 }
+
+/* <------ Footer End ----->*/
+
+/*body {
+    background-image: url('../assets/img/LtteUniform.jpg');
+    background-repeat: no-repeat;
+    background-size: cover;
+}*/
