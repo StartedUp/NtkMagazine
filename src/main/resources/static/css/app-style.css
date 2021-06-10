@@ -27,7 +27,8 @@
 .footer ul {
     margin-top: 20px
 }
-
+.box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
+}
 /* <------ Footer End ----->*/
 
 /*body {
@@ -35,3 +36,15 @@
     background-repeat: no-repeat;
     background-size: cover;
 }*/
+.album .btn-outline-secondary {
+    color: #6c757d;
+    background-color: transparent;
+    background-image: none;
+    border-color: #6c757d;
+}
+.card .card-body {
+    -webkit-box-flex: 1;
+    -ms-flex: 1 1 auto;
+    flex: 1 1 auto;
+    padding: 1.25rem;
+}
