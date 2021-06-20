@@ -16,6 +16,7 @@ public class HomeController {
     @GetMapping("/")
     public String showHomePage(Model model) {
         try {
+            logger.info("Showing home page");
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             if (!(auth instanceof AnonymousAuthenticationToken)) {
                 /* The user is logged in :) */
@@ -29,5 +30,4 @@ public class HomeController {
         model.addAttribute("title","");
         return "index";
     }
-
 }

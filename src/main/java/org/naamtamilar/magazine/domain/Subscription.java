@@ -65,7 +65,6 @@ public class Subscription {
     private String subscriptionStatus;
     @Column(name = "create_date")
     private Date createDate;
-    ////////////////
     @NotNull
     @OneToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "product_id")

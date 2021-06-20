@@ -6,6 +6,7 @@
    background-color: #ed1c24;
    color: white;
    text-align: center;
+   padding: 20px;
 }
 .copyright {
     color: #ffe700;
@@ -23,9 +24,6 @@
     color: #ffe700;
     padding-right: .5rem;
     padding-left: .5rem;
-}
-.footer ul {
-    margin-top: 20px
 }
 .box-shadow { box-shadow: 0 .25rem .75rem rgba(0, 0, 0, .05);
 }
