@@ -1,7 +1,6 @@
 package org.naamtamilar.magazine.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
@@ -66,9 +65,12 @@ public class Subscription {
     @Column(name = "create_date")
     private Date createDate;
     @NotNull
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "product_id")
-    private Product product;
+    @OneToOne(targetEntity = Product.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "product_id",nullable = false)
+    private Set<Product> products;
+    @OneToOne(targetEntity = SubscriptionPlan.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JoinColumn(name = "subscription_plan_id", nullable=false)
+    private SubscriptionPlan subscriptionPlan;
 
     @NotNull
     @Column(unique = true)

@@ -20,7 +20,7 @@ public class HomeController {
             Authentication auth = SecurityContextHolder.getContext().getAuthentication();
             if (!(auth instanceof AnonymousAuthenticationToken)) {
                 /* The user is logged in :) */
-                return "memberHome";
+                return "index";
             }
         }catch (UsernameNotFoundException e){
             e.printStackTrace();

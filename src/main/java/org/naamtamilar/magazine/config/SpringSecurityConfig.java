@@ -16,16 +16,13 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true)
+//@EnableGlobalMethodSecurity(prePostEnabled = true)
 public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 
 	@Bean
 	public PasswordEncoder passwordEncoder(){
 		return new BCryptPasswordEncoder();
 	}
-
-    /*@Autowired
-    authSuccessHandler successHandler ;*/
 
 	@Autowired
 	private UserDetailsServiceImpl userDetailsService;
@@ -37,7 +34,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.authorizeRequests()
-				.antMatchers("/a/**").access("hasRole('ROLE_ADMIN')")
+				.antMatchers("/a/**").access("hasRole('ADMIN')")
 				.antMatchers("/u/**").authenticated()
 				.anyRequest().permitAll()
 				.and()
@@ -53,7 +50,7 @@ public class SpringSecurityConfig extends WebSecurityConfigurerAdapter {
 				.and()
 				.csrf().ignoringAntMatchers("/h2-console/**");
 		http.sessionManagement()
-				.sessionFixation().newSession()
+				.sessionFixation().none()
 				.sessionCreationPolicy(SessionCreationPolicy.IF_REQUIRED)
 				.invalidSessionUrl("/")
 				.maximumSessions(3);

@@ -1,14 +1,13 @@
 package org.naamtamilar.magazine.service.impl;
 
 import org.naamtamilar.magazine.domain.LoggedInUser;
+import org.naamtamilar.magazine.domain.User;
+import org.naamtamilar.magazine.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
-import org.naamtamilar.magazine.domain.User;
-import org.naamtamilar.magazine.repository.UserRepository;
 
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {

@@ -1,18 +1,17 @@
 package org.naamtamilar.magazine.service.impl;
 
-import java.util.Collection;
-import java.util.Optional;
-
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
 import org.naamtamilar.magazine.domain.Role;
+import org.naamtamilar.magazine.domain.User;
+import org.naamtamilar.magazine.repository.UserRepository;
+import org.naamtamilar.magazine.service.IService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.AuditorAware;
 import org.springframework.stereotype.Service;
 
-import org.naamtamilar.magazine.domain.User;
-import org.naamtamilar.magazine.repository.UserRepository;
-import org.naamtamilar.magazine.service.IService;
+import java.util.List;
+import java.util.Optional;
 
 @Service
 public class UserServiceImpl implements IService<User> {
@@ -21,7 +20,7 @@ public class UserServiceImpl implements IService<User> {
 	private UserRepository userRepository;
 
 	@Override
-	public Collection<User> findAll() {
+	public List<User> findAll() {
 		return userRepository.findAll();
 	}
 

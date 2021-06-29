@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
 <head>
     <div th:replace="fragments/header :: headMeta"></div>
     <div th:replace="fragments/header :: head"></div>
@@ -46,7 +46,7 @@
                         <div class="row control-group">
                             <div class="form-group col-xs-12 floating-label-form-group controls">
                                 <label for="password">கடவுச்சொல் உறுதி செய்க*</label>
-                                <input id="pwdConfirm" name="password" class="form-control" type="password" placeholder="கடவுச்சொல் உறுதி செய்க" required/>
+                                <input id="pwdConfirm" class="form-control" type="password" placeholder="கடவுச்சொல் உறுதி செய்க" required/>
                             </div>
                         </div>
 

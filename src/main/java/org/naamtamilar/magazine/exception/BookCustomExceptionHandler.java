@@ -1,11 +1,10 @@
 package org.naamtamilar.magazine.exception;
 
+import org.naamtamilar.magazine.util.MethodUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-
-import org.naamtamilar.magazine.util.MethodUtils;
 
 @ControllerAdvice
 public class BookCustomExceptionHandler {

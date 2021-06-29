@@ -1,24 +1,26 @@
 package org.naamtamilar.magazine.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
-import org.hibernate.validator.constraints.NotEmpty;
+import lombok.*;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
 @Entity
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 public class Address {
 	@Id
     @GeneratedValue
     @NotNull
+	@EqualsAndHashCode.Include
     private int id;
 	@NotNull
 	private String addressHolderName;
 	@NotNull
 	private String addressLine1;
-	@NotNull
 	private String addressLine2;
 	@NotNull
 	private String city;
@@ -30,6 +32,6 @@ public class Address {
 	private String pincode;
 	@JsonIgnore
 	@ManyToOne
-	@JoinColumn(name ="subscriber_id")
+	@JoinColumn(name ="user_id")
 	private User user;
 }

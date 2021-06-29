@@ -1,23 +1,22 @@
 package org.naamtamilar.magazine.domain;
 
-import lombok.Data;
+import lombok.*;
 
+import javax.persistence.*;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.OneToMany;
-
 @Entity
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 public class Role extends Auditable<String>{
 	@Id
 	@GeneratedValue
+	@EqualsAndHashCode.Include
 	private Long id;
 	private String name;
-	@OneToMany(targetEntity = User.class, mappedBy = "role", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+	@OneToMany(targetEntity = User.class, mappedBy = "role", fetch = FetchType.EAGER, cascade = CascadeType.ALL)
+	@ToString.Exclude
 	private Set<User> users;
 }

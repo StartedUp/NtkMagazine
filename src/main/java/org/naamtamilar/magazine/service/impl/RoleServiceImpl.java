@@ -1,16 +1,15 @@
 package org.naamtamilar.magazine.service.impl;
 
-import java.util.Collection;
-import java.util.Optional;
-
 import org.codehaus.jettison.json.JSONException;
 import org.codehaus.jettison.json.JSONObject;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import org.naamtamilar.magazine.domain.Role;
 import org.naamtamilar.magazine.repository.RoleRepository;
 import org.naamtamilar.magazine.service.IService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.Collection;
+import java.util.Optional;
 
 @Service
 public class RoleServiceImpl implements IService<Role> {
@@ -45,4 +44,6 @@ public class RoleServiceImpl implements IService<Role> {
 		return jsonObject.toString();
 	}
 
+    public Role findByName(String name) { return roleRepository.findByName(name);
+    }
 }

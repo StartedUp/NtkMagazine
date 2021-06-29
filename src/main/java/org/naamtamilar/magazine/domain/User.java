@@ -1,7 +1,7 @@
 package org.naamtamilar.magazine.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import lombok.Data;
+import lombok.*;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import javax.persistence.*;
@@ -10,10 +10,14 @@ import java.util.Date;
 import java.util.Set;
 
 @Entity
-@Data
+@Getter
+@Setter
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
+@ToString
 public class User extends Auditable<String>{
 	@Id
 	@GeneratedValue
+	@EqualsAndHashCode.Include
 	private Long id;
 	@NotNull
 	private String name;
@@ -26,15 +30,19 @@ public class User extends Auditable<String>{
 	private boolean active;
 	@Column(columnDefinition="int default 0")
 	private boolean isAccountVerified;
+	@Column
+	private boolean adminApproved =true;
 	@Column(columnDefinition="int default 0")
 	private int gender;@DateTimeFormat(pattern = "dd/MM/yyyy")
 	private Date dob;
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "role_id")
+	@ToString.Exclude
 	private Role role;
-	/*@JsonIgnore
-	@OneToMany(targetEntity = Address.class,mappedBy = "subscriber",cascade= CascadeType.ALL, fetch = FetchType.EAGER)
-	private Set<Address> addresses;*/
+	@JsonIgnore
+	@OneToMany(targetEntity = Address.class,mappedBy = "user",cascade= CascadeType.ALL, fetch = FetchType.EAGER)
+	@ToString.Exclude
+	private Set<Address> addresses;
 
 	public User(User user) {
 		this.id=user.getId();

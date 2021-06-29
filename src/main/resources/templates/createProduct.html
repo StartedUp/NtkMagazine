@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<head th:include="fragments/header :: head">
+    <meta charset="UTF-8" />
+    <title>Matchpoint-Create Event</title>
+    <link rel="stylesheet" href="css/registerForm.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+</head>
+<body id="page-top" class="index">
+    <div th:include="fragments/header :: header"></div>
+    <section id="registration" th:name="register">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12 text-center">
+                    <h2>Create Event</h2>
+                    <hr class="star-primary">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <form action="/a/registerEvent" id="create-event-form" method="post" class="register-form">
+                        <div class="row control-group">
+                            <div class="form-group col-xs-12 floating-label-form-group controls">
+                                <label for="name">Event Name</label>
+                                <input name="name" class="form-control" type="text" placeholder="Event Name" required/>
+                            </div>
+                        </div>
+                        <div class="row control-group">
+                            <div class="form-group col-xs-12 floating-label-form-group controls">
+                                <label for="startDate">Event Start Date</label>
+                                <input name="startDate" class="form-control datepicker" type="text" placeholder="Event Start Date" required/>
+                            </div>
+                        </div>
+                        <div class="row control-group">
+                            <div class="form-group col-xs-12 floating-label-form-group controls">
+                                <label for="endDate">Event End Date</label>
+                                <input name="endDate" type="text"  class="form-control datepicker" placeholder="Event End Date" required />
+                            </div>
+                        </div>
+                        <div class="row control-group">
+                            <div class="form-group col-xs-12 floating-label-form-group controls">
+                                <label for="location">Location</label>
+                                <input name="location" class="form-control" type="text" placeholder="Location" required/>
+                            </div>
+                        </div>
+                        <div class="row control-group">
+                            <div class="form-group col-xs-12 floating-label-form-group controls">
+                                <label for="notificationDate">Event Notification Date</label>
+                                <input name="notificationDate" class="form-control datepicker" type="text" placeholder="Event Notification Date" required/>
+                            </div>
+                        </div>
+                        <div class="row control-group">
+                            <div class="form-group col-xs-12 floating-label-form-group controls">
+                                <label for="registrationLastDate">Registration Last Date</label>
+                                <input name="registrationLastDate" type="text"  class="form-control datepicker" placeholder="Registration Last Date" required/>
+                            </div>
+                        </div>
+                        <h4 style="color: darkcyan">Please Choose the Categories for the event</h4>
+                        <div class="row control-group">
+                            <div class="col-sm-4" th:each="playingCategory, stat : ${playingCategories}">
+                                <input type="checkbox" class="event-playing-category" th:value="${playingCategory.id}">
+                                <label th:text="${playingCategory.name}"></label>
+                                <!--<input type="hidden" th:name="${'playingCategories['+__${stat.index}__+'].name'}"
+                                       th:value="${playingCategory.name}">
+                                <input type="hidden" th:name="${'playingCategories['+__${stat.index}__+'].fee'}"
+                                       th:value="${playingCategory.fee}">-->
+                            </div>
+                        </div>
+
+                        <h4 style="color: darkcyan">Please Choose the Event type</h4>
+                        <div class="row control-group">
+                            <div class="col-sm-4">
+                                <label for="eventType">Event type</label>
+                                <select id="eventType" name="eventType">
+                                    <option th:each="eventType,stat : ${eventTypes}" th:text="${eventType.eventTypeName}"
+                                            th:value="${eventType.eventType}" th:selected="${stat.first}"></option>
+                                </select>
+                            </div>
+                        </div>
+                        <hr>
+                        <div class="row">
+                            <div class="form-group col-xs-12">
+                                <input value="Register this Event" id="create-event-submit" type="button" class="btn btn-success btn-lg"/>
+                            </div>
+                        </div>
+                        <input type="hidden" th:name="${_csrf.parameterName}" th:value="${_csrf.token}" />
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+</body>
+</html>

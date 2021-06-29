@@ -67,8 +67,11 @@
             <ul class="nav navbar-nav navbar-right">
                 <li sec:authorize="isAnonymous()"><a href="/register"><span class="glyphicon glyphicon-user"></span> பதிவு</a></li>
                 <li sec:authorize="isAnonymous()"><a href="/login"><span class="glyphicon glyphicon-log-in"></span> உள்நுழை</a></li>
-                <li sec:authorize="isAuthenticated()"><a href="/login"><span class="glyphicon glyphicon-log-out"></span> வெளியேறு</a></li>
+                <li sec:authorize="isAuthenticated()"><a href="javascript: document.logoutForm.submit()"><span class="glyphicon glyphicon-log-out"></span> வெளியேறு</a></li>
             </ul>
+            <form name="logoutForm" th:action="@{/logout}" method="post" th:hidden="true">
+                <input hidden type="submit" value="Sign Out"/>
+            </form>
         </div>
     </nav>
 </th:block>

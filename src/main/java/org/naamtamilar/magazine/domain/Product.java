@@ -24,6 +24,8 @@ public class Product {
 
     private int measurementUnit;
 
+    private String productCategory;
+
     private String varietyName;
 
     private String colour;
@@ -31,6 +33,8 @@ public class Product {
     private String sizeInWord;
 
     private BigDecimal sizeInNumber;
+
+    private String issueInterval;  //if the product is a magazine 'daily', 'weekly', 'monthly', 'yearly'
 
     @NotNull
     private BigDecimal pricePerUnit;
@@ -40,8 +44,12 @@ public class Product {
     private BigDecimal minimumQuantity;
 
     private boolean active;
+    
+    @ManyToOne
+    @JoinColumn(name ="subscription_id")
+    private Subscription subscription;
 
-    @OneToMany(targetEntity = ProductImage.class, mappedBy = "product",cascade= CascadeType.ALL, fetch = FetchType.EAGER)
+    @OneToMany(targetEntity = ProductImage.class, mappedBy = "product",cascade= CascadeType.ALL, fetch = FetchType.LAZY)
     private List<ProductImage> productImages;
 
     public MeasurmentUnitsEnum returnMeasurementUnit(int measurementUnitCode){
