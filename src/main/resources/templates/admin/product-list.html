@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/thymeleaf-extras-springsecurity5">
+<head>
+    <th:block th:replace="fragments/header :: headMeta"></th:block>
+    <th:block th:replace="fragments/header :: head"></th:block>
+</head>
+<body>
+
+<div th:replace="fragments/header :: navigation"></div>
+
+<div class="container-fluid">
+    <style rel="stylesheet">
+            th{
+                text-align: center;
+            }
+        </style>
+
+    <section>
+        <div class="container" id="maincontent" tabindex="2">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="row">
+                        <div class="col-lg-12 text-center">
+                            <h2>
+                                <span th:text="${products==null || products.isEmpty() ? 'No products to show':'Products'}" th:remove="tag"></span>
+                                <a sec:authorize="hasRole('ROLE_ADMIN')"
+                                   th:href="@{/a/createProduct}" style="float: right" class="btn btn-info btn-lg">Create Product</a><br></h2>
+                            <hr class="star-primary">
+                        </div>
+                    </div>
+                    <br><div class="table-responsive">
+                    <table style="border-style: solid" class="table table-hover table-bordered" th:if="${products!=null && !products.isEmpty()}">
+                        <thead>
+                        <tr style="color:#c7254e">
+                            <th>Product Name</th>
+                            <th>Created Date</th>
+                        </tr>
+                        </thead>
+                        <tbody>
+                        <tr style="color: #122b40" th:each="product,stat : ${products}" >
+                            <td th:text="${product.name}"></td>
+                            <td th:text="${#dates.format(product.createdDate,'dd-MMM-yyyy')}"></td>
+                        </tr>
+                        </tbody>
+                    </table>
+                </div>
+                </div>
+            </div>
+        </div>
+    </section>
+</div>
+</body>
+</html>
