@@ -27,8 +27,8 @@ public class ProductAdminController extends AdminRootController{
 
     @RequestMapping(value = "/product-list", method = RequestMethod.GET)
     public String listProduct(Model model) {
-        model.addAttribute("productList", this.productService.listProducts());
-        return "product/product-list";
+        model.addAttribute("products", this.productService.listProducts());
+        return "admin/product-list";
     }
 
     @RequestMapping("/product/showCreatePage")
