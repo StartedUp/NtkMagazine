@@ -45,7 +45,7 @@ public class AdminController extends AdminRootController{
     private MailService mailService;
 
     /*@PreAuthorize("hasAnyRole('admin')")*/
-    @RequestMapping(value = "/admin", method = RequestMethod.GET)
+    @RequestMapping(value = "/home", method = RequestMethod.GET)
     public String showAdminPage(){
         return "admin/adminHome";
     }
